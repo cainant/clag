@@ -1,0 +1,22 @@
+Agent:
+    '#' name=ID 
+    ('crencas:' beliefs=NameList)?
+    ('objetivos:' desires=NameList)?
+    ('planos:' plans*=Plans+[','])? ';'
+;
+
+NameList:
+    list=ID+[','] ';'
+;
+
+Plans:
+    name=ID '(' conditions=ConditionList ')' '{' actions=ActionList? '}'
+;
+
+ConditionList:
+    condition=ID+['and']
+;
+
+ActionList:
+    action=ID+[',']
+;
