@@ -14,5 +14,5 @@ planos:
     MakeCoffee(HasWater and MakeCoffee) {};
 
 %CoffeeShop
-acoes: buyCoffee;
 percepcoes: hasCoffee;
+acoes: buyCoffee;
