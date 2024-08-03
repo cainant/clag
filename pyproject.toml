@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "ic"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
-authors = ["ctravizanutto <ctravizanutto@gmail.com>"]
+authors = ["Cainan Travizanutto <ctravizanutto@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -17,4 +17,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-ic = "ic.dsl:main"
+ic = "ic.cli:cli"
