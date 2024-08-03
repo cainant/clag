@@ -1,5 +1,4 @@
-from typing import Iterable
-from maspy import *
+from maspy import Admin, Agent, gain, pl
 from maspy.agent import Belief, Goal
 
 class CoffeeMachine(Agent):
@@ -11,6 +10,7 @@ class CoffeeMachine(Agent):
     def expressoReady(self, src):
         self.print('Expresso Machine ready!')
         self.add(Goal('make_coffee'))
+        self.get
 
     @pl(gain, Belief('filter'), Belief('has_water'))
     def machineReady(self, src):
@@ -28,4 +28,5 @@ black = CoffeeMachine('Black')
 expresso.add(Belief('coffee_beans'))
 black.add(Belief('filter'))
 
+Admin().connect_to
 Admin().start_system()

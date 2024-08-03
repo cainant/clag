@@ -4,8 +4,8 @@ from maspy import *
 from maspy.agent import Belief, Goal
 
 class {{agent.name}}(Agent):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, name):
+        super().__init__(name)
         {% for belief in agent.beliefs.list %}
         self.add(Belief('{{belief}}'))
         {% endfor %}

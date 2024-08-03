@@ -1,0 +1,18 @@
+#CoffeeMachine
+crencas: HasWater, HasFilter;
+objetivos: MakeCoffee;
+planos: 
+    ExpressoReady(HasWater and HasCoffeeBean) {
+        MakeCoffee
+    },
+    BuyFilter(HasCoffeeBean) {
+        HasFilter
+    },
+    BlackReady(HasWater and HasFilter) {
+        MakeCoffee
+    },
+    MakeCoffee(HasWater and MakeCoffee) {};
+
+%CoffeeShop
+acoes: buyCoffee;
+percepcoes: hasCoffee;
