@@ -1,10 +1,6 @@
-from ast import Tuple
 from textx import metamodel_from_file
 import jinja2
-from os import mkdir
-from os.path import exists, dirname
-
-system_meta = metamodel_from_file('ic/grammar/system.tx')
+from os.path import dirname
 
 def context_type_to_str(context, agent):
     for plan in agent.plans:
@@ -44,6 +40,7 @@ def verbose_output(agents, envs):
             print(action)
 
 def parse_file(file, verbose):
+    system_meta = metamodel_from_file(f'{dirname(__file__)}/grammar/system.tx')
     system_model = system_meta.model_from_file(file)
 
     agents = system_model.agents
