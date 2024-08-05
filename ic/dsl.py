@@ -1,8 +1,11 @@
-from textx import metamodel_from_file
+import textx
 import jinja2
 from os.path import dirname
 
+file_name = dirname(__file__)
+
 def context_type_to_str(context, agent):
+    # check if context is a belief or a goal
     for plan in agent.plans:
         if context == plan.name:
             return f'Goal("{context}")'
@@ -40,7 +43,8 @@ def verbose_output(agents, envs):
             print(action)
 
 def parse_file(file, verbose):
-    system_meta = metamodel_from_file(f'{dirname(__file__)}/grammar/system.tx')
+    # load the system textx model
+    system_meta = textx.metamodel_from_file(f'{file_name}/grammar/system.tx')
     system_model = system_meta.model_from_file(file)
 
     agents = system_model.agents
@@ -50,9 +54,10 @@ def parse_file(file, verbose):
             
     return (agents, envs)
 
-def build_output(agents, envs, output_file):
+def build_output_file(agents, envs, output_file):
+    # load the jinja2 templates
     jinja_env = jinja2.Environment(
-        loader=jinja2.FileSystemLoader(dirname(__file__)),
+        loader=jinja2.FileSystemLoader(file_name),
         trim_blocks=True, lstrip_blocks=True
     )
     jinja_env.filters['contextType'] = context_type_to_str
