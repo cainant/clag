@@ -63,8 +63,10 @@ def build_output_file(agents, envs, output_file):
     jinja_env.filters['contextType'] = context_type_to_str
     jinja_agent_template = jinja_env.get_template('templates/agentTemplate.py.jinja')
     jinja_env_template = jinja_env.get_template('templates/envTemplate.py.jinja')
+    jinja_main_template = jinja_env.get_template('templates/mainTemplate.py.jinja')
 
     with open(output_file, 'w') as f:
         f.write('from maspy import *\n')
         f.write(jinja_agent_template.render(agents=agents))
         f.write(jinja_env_template.render(envs=envs))
+        f.write(jinja_main_template.render(agents=agents))

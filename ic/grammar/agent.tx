@@ -10,11 +10,14 @@ NameList:
 ;
 
 Plans:
-    name=ID '(' conditions=ConditionList ')' '{' actions=ActionList? '}'
+    name=ID '(' 
+    'quando:' data=ID 
+    (';' 'contem:' conditions=ConditionList)? ')' 
+    '{' actions=ActionList? '}'
 ;
 
 ConditionList:
-    condition=ID+['and']
+    condition=ID+[',']
 ;
 
 ActionList:

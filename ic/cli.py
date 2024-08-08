@@ -1,18 +1,15 @@
-from asyncio import events
-from tabnanny import verbose
 import click
-from click import group
 
 if __package__:
     from . import dsl
 else:
     import dsl
 
-@click.group()
+@click.group
 def cli():
     pass
 
-@cli.command()
+@cli.command
 @click.argument('file_name', type=click.STRING)
 @click.option('--verbose', '-v', is_flag=True, help='Show information on all entities.')
 @click.option('--output_file', '-o', default='out.py', help='Change output file name.')
