@@ -3,14 +3,20 @@ crencas: HasWater, HasFilter;
 objetivos: MakeCoffee;
 planos: 
     ExpressoReady(
-        quando: HasWater;
-        contem: HasCoffeeBean) {
+        quando:  HasWater;
+        contem: HasCoffeeBean)
+    {
         MakeCoffee
     },
-    BuyFilter(quando: HasCoffeeBean) {
+    BuyFilter(
+        quando: HasCoffeeBean)
+    {
         HasFilter
     },
-    BlackReady(quando: HasWater; contem: HasFilter, HasCoffeeBean) {
+    BlackReady(
+        quando: HasWater; 
+        contem: HasFilter, HasCoffeeBean)
+    {
         MakeCoffee
     },
     MakeCoffee(quando: MakeCoffee) {

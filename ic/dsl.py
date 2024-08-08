@@ -45,7 +45,11 @@ def verbose_output(agents, envs):
 def parse_file(file, verbose):
     # load the system textx model
     system_meta = textx.metamodel_from_file(f'{file_name}/grammar/system.tx')
-    system_model = system_meta.model_from_file(file)
+    try:
+        system_model = system_meta.model_from_file(file)
+    except textx.TextXSyntaxError as e:
+        print(f'[ERROR] {e.message} at * position: "{e.context}"')
+        exit()
 
     agents = system_model.agents
     envs = system_model.envs
