@@ -1,21 +1,29 @@
 NAGAgent:
     '#' name=ID 
-    ('crencas:' beliefs*=ID[','] ';')?
-    ('objetivos:' desires*=ID[','] ';')?
-    ('planos:' plans*=Plans+[','])? ';'
+    ( ('crencas:' beliefs*=ID[','])
+    ('objetivos:' desires*=ID[','])
+    ('planos:' plans*=Plans+[',']) )#
 ;
 
 Plans:
     name=ID '(' 
-    'quando:' data=ID 
-    (';' 'contem:' conditions=ConditionList)? ')' 
-    '{' actions=ActionList? '}'
+    'quando:' data=Action 
+    ('contem:' conditions*=Condition[','])? ')' 
+    '{' actions*=Action[','] '}'
 ;
 
-ConditionList:
-    condition=ID+[',']
+Condition:
+    ctxType=ContextType name=ID
 ;
 
-ActionList:
-    action=ID+[',']
+Action:
+    actType=ActionType name=ID
+;
+
+ActionType:
+    'acreditar' | 'desacreditar' | 'cumprir'
+;
+
+ContextType:
+    'acredita'
 ;

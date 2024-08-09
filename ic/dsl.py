@@ -1,3 +1,4 @@
+import builtins
 import textx
 import jinja2
 import click
@@ -38,7 +39,9 @@ def verbose_output(agents, envs):
 
 def parse_file(file):
     # load the textx metamodel and system model
-    system_metamodel = textx.metamodel_from_file(f'{file_name}/grammar/system.tx', classes=[NAGAgent])
+    system_metamodel = textx.metamodel_from_file(
+        file_name=f'{file_name}/grammar/system.tx', classes=[NAGAgent],
+    )
     try:
         system_model = system_metamodel.model_from_file(file)
     except textx.TextXSyntaxError as e:

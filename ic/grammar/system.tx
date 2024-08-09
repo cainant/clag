@@ -2,6 +2,6 @@ import agent
 import env
 
 Entities:
-    agents*=NAGAgent
-    envs*=Environment
+    (agents*=NAGAgent
+    envs*=Environment)#
 ;

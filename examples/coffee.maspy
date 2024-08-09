@@ -1,28 +1,29 @@
 #CoffeeMachine
-crencas: HasWater, HasFilter;
-objetivos: MakeCoffee;
+objetivos: MakeBlackCoffee
+crencas: HasCoffeeBeans
 planos: 
     ExpressoReady(
-        quando:  HasWater;
-        contem: HasCoffeeBean)
+        quando:  cumprir MakeExpressoCoffee
+        contem: acredita HasCoffeeBeans)
     {
-        MakeCoffee
-    },
-    BuyFilter(
-        quando: HasCoffeeBean)
-    {
-        HasFilter
+        cumprir MakeCoffee
     },
     BlackReady(
-        quando: HasWater; 
-        contem: HasFilter, HasCoffeeBean)
+        quando: cumprir MakeBlackCoffee 
+        contem: acredita HasCoffeeBeans, acredita HasFilter)
     {
-        MakeCoffee
+        cumprir MakeCoffee,
+        desacreditar HasFilter
     },
-    MakeCoffee(quando: MakeCoffee) {
-        
-    };
+    BuyCoffeeBeans(
+        quando: desacreditar HasCoffeeBeans)
+    {
+        acreditar HasCoffeeBeans
+    },
+    MakeCoffee(quando: cumprir MakeCoffee) {
+        desacreditar HasCoffeeBeans
+    }
 
 %CoffeeShop
-percepcoes: hasCoffee;
-acoes: buyCoffee;
+percepcoes: HasCoffee;
+acoes: BuyCoffeeBeans;
