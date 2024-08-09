@@ -3,7 +3,7 @@ import textx
 import jinja2
 import click
 from os.path import dirname
-from ic.agent import NAGAgent
+from ic.filters import *
 
 file_name = dirname(__file__)
 
@@ -40,7 +40,7 @@ def verbose_output(agents, envs):
 def parse_file(file):
     # load the textx metamodel and system model
     system_metamodel = textx.metamodel_from_file(
-        file_name=f'{file_name}/grammar/system.tx', classes=[NAGAgent],
+        file_name=f'{file_name}/grammar/system.tx'
     )
     try:
         system_model = system_metamodel.model_from_file(file)
@@ -59,13 +59,16 @@ def build_output_file(agents, envs, output_file):
         loader=jinja2.FileSystemLoader(file_name),
         trim_blocks=True, lstrip_blocks=True
     )
-    jinja_env.filters['contextType'] = NAGAgent.context_type_to_str
-    jinja_agent_template = jinja_env.get_template('templates/agentTemplate.py.jinja')
-    jinja_env_template = jinja_env.get_template('templates/envTemplate.py.jinja')
-    jinja_main_template = jinja_env.get_template('templates/mainTemplate.py.jinja')
+    jinja_env.filters['contextType'] = context_type_to_str
+    jinja_env.filters['conditionsStr'] = conditions_to_str
+    jinja_env.filters['changeStr'] = change_to_srt
+
+    agent_jinja_template = jinja_env.get_template('templates/agentTemplate.py.jinja')
+    env_jinja_template = jinja_env.get_template('templates/envTemplate.py.jinja')
+    main_jinja_template = jinja_env.get_template('templates/mainTemplate.py.jinja')
 
     with open(output_file, 'w') as f:
         f.write('from maspy import *\n')
-        f.write(jinja_agent_template.render(agents=agents))
-        f.write(jinja_env_template.render(envs=envs))
-        f.write(jinja_main_template.render(agents=agents))
+        f.write(agent_jinja_template.render(agents=agents))
+        f.write(env_jinja_template.render(envs=envs))
+        f.write(main_jinja_template.render(agents=agents))

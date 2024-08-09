@@ -12,10 +12,10 @@ class {{agent.name}}(Agent):
         {% endfor %}
 
     {% for plan in agent.plans %}
-    @pl(gain, {{plan.data|contextType(plan.data.actType)}})
+    @pl({{plan.data.actType|changeStr(True)}}, {{plan.data.name|contextType(plan.data.actType)}}{% if plan.conditions %}{{ plan.conditions|conditionsStr()}}{% endif %})
     def {{plan.name}}(self, src):
-        {% for action in plan.actions.action %}
-        self.add({{ action|contextType(agent) }})
+        {% for action in plan.actions %}
+        self.{{action.actType|changeStr(False)}}({{ action.name|contextType(action.actType) }})
         {% else %}
         pass
         {% endfor %}

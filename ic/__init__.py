@@ -1,4 +1,4 @@
-from ic.agent import NAGAgent
+import ic.filters as filters
 import ic.dsl as dsl
 
-__all__ = ['NAGAgent', 'dsl']
+__all__ = ['filters', 'dsl']
