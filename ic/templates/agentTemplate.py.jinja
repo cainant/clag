@@ -4,10 +4,10 @@
 class {{agent.name}}(Agent):
     def __init__(self, name = None):
         super().__init__(name)
-        {% for belief in agent.beliefs.list %}
+        {% for belief in agent.beliefs %}
         self.add(Belief('{{belief}}'))
         {% endfor %}
-        {% for desire in agent.desires.list %}
+        {% for desire in agent.desires %}
         self.add(Goal('{{desire}}'))
         {% endfor %}
 

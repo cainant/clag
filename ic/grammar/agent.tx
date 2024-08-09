@@ -1,12 +1,8 @@
-Agent:
+NAGAgent:
     '#' name=ID 
-    ('crencas:' beliefs=NameList)?
-    ('objetivos:' desires=NameList)?
+    ('crencas:' beliefs*=ID[','] ';')?
+    ('objetivos:' desires*=ID[','] ';')?
     ('planos:' plans*=Plans+[','])? ';'
-;
-
-NameList:
-    list=ID+[','] ';'
 ;
 
 Plans:

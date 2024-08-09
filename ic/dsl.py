@@ -1,70 +1,62 @@
 import textx
 import jinja2
+import click
 from os.path import dirname
+from ic.agent import NAGAgent
 
 file_name = dirname(__file__)
 
-def context_type_to_str(context, agent):
-    # check if context is a belief or a goal
-    for plan in agent.plans:
-        if context == plan.name:
-            return f'Goal("{context}")'
-    
-    return f'Belief("{context}")'
-
 def verbose_output(agents, envs):
     for agent in agents:
-        print(f'Agent: {agent.name}')
-        print('Beliefs:')
+        click.echo(f'Agent: {agent.name}')
+        click.echo('Beliefs:')
         for belief in agent.beliefs.list:
-            print(belief)
+            click.echo(belief)
 
-        print('\nDesires:')
+        click.echo('\nDesires:')
         for desire in agent.desires.list:
-            print(desire)
+            click.echo(desire)
 
-        print('\nPlans:')
+        click.echo('\nPlans:')
         for plan in agent.plans:
-            print(f'{plan.name}: {plan.conditions.condition} -> ', end='')
+            click.echo(f'{plan.name}: {plan.conditions.condition} -> ', nl=False)
             if hasattr(plan.actions, 'action'):
-                print(plan.actions.action)
+                click.echo(plan.actions.action)
             else:
-                print('No action')
+                click.echo('No action')
 
     for env in envs:
-        print('\n---------------------------')
-        print(f'Environment: {env.name}')
-        print('Perceptions:')
+        click.echo('\n---------------------------')
+        click.echo(f'Environment: {env.name}')
+        click.echo('Perceptions:')
         for perception in env.perceptions.list:
-            print(perception)
+            click.echo(perception)
 
-        print('\nActions:')
+        click.echo('\nActions:')
         for action in env.actions.list:
-            print(action)
+            click.echo(action)
 
-def parse_file(file, verbose):
-    # load the system textx model
-    system_meta = textx.metamodel_from_file(f'{file_name}/grammar/system.tx')
+def parse_file(file):
+    # load the textx metamodel and system model
+    system_metamodel = textx.metamodel_from_file(f'{file_name}/grammar/system.tx', classes=[NAGAgent])
     try:
-        system_model = system_meta.model_from_file(file)
+        system_model = system_metamodel.model_from_file(file)
     except textx.TextXSyntaxError as e:
-        print(f'[ERROR] {e.message} at * position: "{e.context}"')
+        click.echo(f'[ERROR] {e.message} at * position: "{e.context}"')
         exit()
 
     agents = system_model.agents
     envs = system_model.envs
-    if verbose:
-        verbose_output(agents, envs)
-            
+         
     return (agents, envs)
 
 def build_output_file(agents, envs, output_file):
-    # load the jinja2 templates
+    # set up jinja2 env and load templates
     jinja_env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(file_name),
         trim_blocks=True, lstrip_blocks=True
     )
-    jinja_env.filters['contextType'] = context_type_to_str
+    jinja_env.filters['contextType'] = NAGAgent.context_type_to_str
     jinja_agent_template = jinja_env.get_template('templates/agentTemplate.py.jinja')
     jinja_env_template = jinja_env.get_template('templates/envTemplate.py.jinja')
     jinja_main_template = jinja_env.get_template('templates/mainTemplate.py.jinja')
