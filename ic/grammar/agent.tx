@@ -1,5 +1,5 @@
-NAGAgent:
-    '#' name=ID 
+Agent:
+    'agente' name=ID 
     ( ('crencas:' beliefs*=ID[','])
     ('objetivos:' desires*=ID[','])
     ('planos:' plans*=Plans) )#

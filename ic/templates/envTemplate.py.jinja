@@ -4,11 +4,11 @@
 class {{env.name}}(Environment):
     def __init__(self, name):
         super().__init__(name)
-        {% for perception in env.perceptions.list %}
+        {% for perception in env.perceptions %}
         self.create(Percept('{{perception}}'))
         {% endfor %}
 
-    {% for action in env.actions.list %}
+    {% for action in env.actions %}
     def {{action}}(self, src):
         pass
     {% endfor %}

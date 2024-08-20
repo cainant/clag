@@ -1,4 +1,4 @@
-#CoffeeMachine
+agente CoffeeMachine
 objetivos: MakeBlackCoffee 
 crencas: HasCoffeeBeans
 planos: 
@@ -27,6 +27,6 @@ planos:
         desacreditar HasCoffeeBeans
     encerrar
 
-%CoffeeShop
-percepcoes: HasCoffee;
-acoes: BuyCoffeeBeans;
+ambiente CoffeeShop
+percepcoes: HasCoffee
+acoes: BuyCoffeeBeans

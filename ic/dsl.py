@@ -1,9 +1,8 @@
-import builtins
 import textx
 import jinja2
 import click
 from os.path import dirname
-from ic.filters import *
+import ic.filters
 
 file_name = dirname(__file__)
 
@@ -59,9 +58,9 @@ def build_output_file(agents, envs, output_file):
         loader=jinja2.FileSystemLoader(file_name),
         trim_blocks=True, lstrip_blocks=True
     )
-    jinja_env.filters['contextType'] = context_type_to_str
-    jinja_env.filters['conditionsStr'] = conditions_to_str
-    jinja_env.filters['changeStr'] = change_to_srt
+    jinja_env.filters['contextType'] = ic.filters.context_type_to_str
+    jinja_env.filters['conditionsStr'] = ic.filters.conditions_to_str
+    jinja_env.filters['changeStr'] = ic.filters.change_to_srt
 
     agent_jinja_template = jinja_env.get_template('templates/agentTemplate.py.jinja')
     env_jinja_template = jinja_env.get_template('templates/envTemplate.py.jinja')
